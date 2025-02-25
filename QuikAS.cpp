@@ -13,24 +13,16 @@
 
 int main()
 {
-	//std::locale::global(std::locale("ru_RU.UTF-8"));
+	
 	std::vector<std::string> assets_vec = {"SBER", "GAZP","LKOH", "VTBR","SNGSP",
-		"ROSN", "RTKMP", "MRKP", "FEES", "GMKN","NVTK"};
+		"ROSN", "RTKMP", "MRKP", "FEES", "GMKN","NVTK","IRAO"};
 
 	double dealSum = 1000000.0;
 	double riskProc = 5.00;
-	fileXLSX f("QuikAS1.xlsx", "Все Акции Московской биржи #2");
+	fileXLSX f("QuikASdata.xlsx", "Текущие торги", "QuikDataReady.xlsx");
 	f.calculateOptLotSizeForAllTable(dealSum, riskProc);
 	f.makeDealBook(assets_vec, dealSum, riskProc);
 
-
-	//f.printStartData();
-	//f.printCalculatedData(1000000.00, 2.00);
-	/*f.printShareCalData("GAZP", dealSum, riskProc);
-	f.printShareCalData("SNGSP", dealSum, riskProc);
-	f.printShareCalData("FEES", dealSum, riskProc);
-	f.printShareCalData("MRKP", dealSum, riskProc);*/
-	//f.calculateOptLotSize("MSNG", dealSum, riskProc);
 
 	
 	return 0;

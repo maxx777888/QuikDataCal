@@ -17,7 +17,7 @@ class fileXLSX
 {
 public:
 
-	fileXLSX(const std::string& fileName_, const std::string& sheetName_);
+	fileXLSX(const std::string& fileName_, const std::string& sheetName_, const std::string& tableNameCreated_);
 	~fileXLSX();
 	std::vector<StockDataClass> getAllDataFromFile();
 	void printStartData();//Печатает данные взятые из таблицы
@@ -37,6 +37,7 @@ public:
 private:
 	std::string fileName = "";
 	std::string sheetName = "";
+	std::string tableNameCreated = "";
 	////////////////////// Название столбцов в таблице
 	std::string sharePriceNameStr = "Цена послед.";
 	std::string shareCodeNameStr = "Код инструмента";

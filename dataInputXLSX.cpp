@@ -3,15 +3,15 @@
 #include "dataInputXLSX.h"
 
 
-fileXLSX::fileXLSX(const std::string& fileName_, const std::string& sheetName_)
+fileXLSX::fileXLSX(const std::string& fileName_, const std::string& sheetName_, const std::string& tableNameCreated_)
 {
 	this->fileName = fileName_;
 	this->sheetName = sheetName_;
+	this->tableNameCreated = tableNameCreated_;
 	
 	try {
 		openDoc.open(fileName);
 
-		//std::cout << "File is opened! " << std::endl;
 		auto wks = openDoc.workbook().worksheet(sheetName);
 		
 		int priceColNum = getColumnNumber(sharePriceNameStr);
@@ -138,7 +138,19 @@ fileXLSX::fileXLSX(const std::string& fileName_, const std::string& sheetName_)
 		
 	}
 	catch (std::exception& e) {
-		std::cout << "Error open xlsx file: " << fileName << " " << e.what() << std::endl;	
+		std::string catchedErrorName = e.what();
+		std::cout << "Error open xlsx file: " << fileName << " " << catchedErrorName << std::endl;
+		if (catchedErrorName == "file open failed")
+		{
+			std::cout << "Possible error: " << fileName << " file not found." << std::endl;
+			std::cout << "Please ensure the file is in the correct directory and the file name is spelled correctly." << std::endl;
+		}
+		else if (catchedErrorName == "Cell reference is invalid")
+		{
+			std::cout << "Potential error : Required columns are absent from the file." << std::endl;
+			std::cout << "Please verify that the input table includes all columns needed for processing." << std::endl;
+		}
+
 	}
 
 }
@@ -858,7 +870,7 @@ bool fileXLSX::createCalculatedTableFromTableData(double amount, double riskProc
 			rowNum++;
 		}
 
-		createdDoc.save("CreatedTable.xlsx");
+		createdDoc.save(tableNameCreated);
 		return true;
 	}
 
@@ -1107,7 +1119,7 @@ void fileXLSX::makeDealBook(std::vector<std::string>& v, double amount, double r
 	
 
 
-	createdDoc.save("CreatedTable.xlsx");
+	createdDoc.save(tableNameCreated);
 	
 	
 	
